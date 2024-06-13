@@ -1,0 +1,405 @@
+
+2024-06-13T06:01:56.014561
+================================ System Message ================================
+
+You will get information about a codebase that is currently on disk in the current folder.
+The user will ask you to write a script that runs the code in a specific way.
+You will answer with code blocks that include all the necessary terminal commands.
+Do not install globally. Do not use sudo.
+Do not explain the code, just give the commands.
+Do not use placeholders, use example values (like . for a folder argument) if necessary.
+
+
+================================ Human Message =================================
+
+
+        Make a unix script that
+        a) installs dependencies
+        b) runs all necessary parts of the codebase (in parallel if necessary)
+        
+Information about the codebase:
+
+```
+File: Structure
+1 testsystem0001/
+2 src/
+3 __init__.py
+4 main.py
+5 models/
+6 __init__.py
+7 user.py
+8 repositories/
+9 __init__.py
+10 user_repository.py
+11 services/
+12 __init__.py
+13 user_service.py
+14 tests/
+15 __init__.py
+16 test_user_service.py
+17 requirements.txt
+
+File: src/__init__.py
+1 # empty file
+
+File: src/main.py
+1 from src.services.user_service import UserService
+2 
+3 def main():
+4     user_service = UserService()
+5     user_service.create_user("John Doe", "johndoe@example.com")
+6 
+7 if __name__ == "__main__":
+8     main()
+
+File: src/models/__init__.py
+1 # empty file
+
+File: src/models/user.py
+1 from dataclasses import dataclass
+2 
+3 @dataclass
+4 class User:
+5     name: str
+6     email: str
+
+File: src/repositories/__init__.py
+1 # empty file
+
+File: src/repositories/user_repository.py
+1 from src.models.user import User
+2 
+3 class UserRepository:
+4     def __init__(self):
+5         self.users = []
+6 
+7     def create_user(self, name, email):
+8         user = User(name, email)
+9         self.users.append(user)
+
+File: src/services/__init__.py
+1 # empty file
+
+File: src/services/user_service.py
+1 from src.repositories.user_repository import UserRepository
+2 
+3 class UserService:
+4     def __init__(self):
+5         self.user_repository = UserRepository()
+6 
+7     def create_user(self, name, email):
+8         self.user_repository.create_user(name, email)
+
+File: tests/__init__.py
+1 # empty file
+
+File: tests/test_user_service.py
+1 import pytest
+2 from src.services.user_service import UserService
+3 
+4 def test_create_user():
+5     user_service = UserService()
+6     user_service.create_user("John Doe", "johndoe@example.com")
+7     assert len(user_service.user_repository.users) == 1
+
+File: requirements.txt
+1 dataclasses
+2 pytest
+
+```
+
+================================== Ai Message ==================================
+
+Here is the Unix script that installs dependencies and runs the codebase:
+```
+#!/bin/bash
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Run tests
+pytest tests/
+
+# Run main script
+python src/main.py
+```
+
+2024-06-13T06:02:53.401389
+================================ System Message ================================
+
+You will get information about a codebase that is currently on disk in the current folder.
+The user will ask you to write a script that runs the code in a specific way.
+You will answer with code blocks that include all the necessary terminal commands.
+Do not install globally. Do not use sudo.
+Do not explain the code, just give the commands.
+Do not use placeholders, use example values (like . for a folder argument) if necessary.
+
+
+================================ Human Message =================================
+
+
+        Make a unix script that
+        a) installs dependencies
+        b) runs all necessary parts of the codebase (in parallel if necessary)
+        
+Information about the codebase:
+
+```
+File: Structure
+1 testsystem0001/
+2 src/
+3 __init__.py
+4 main.py
+5 calculator.py
+6 models/
+7 __init__.py
+8 operation.py
+9 tests/
+10 __init__.py
+11 test_calculator.py
+12 requirements.txt
+
+File: requirements.txt
+1 pytest
+2 dataclasses
+
+File: src/__init__.py
+1 # empty file
+
+File: src/main.py
+1 from .calculator import Calculator
+2 
+3 def main():
+4     calculator = Calculator()
+5     result = calculator.add(2, 3)
+6     print(f"Result: {result}")
+7 
+8 if __name__ == "__main__":
+9     main()
+
+File: src/calculator.py
+1 from .models.operation import Operation
+2 
+3 class Calculator:
+4     def __init__(self):
+5         self.operation = Operation()
+6 
+7     def add(self, num1, num2):
+8         return self.operation.execute("add", num1, num2)
+9 
+10     def subtract(self, num1, num2):
+11         return self.operation.execute("subtract", num1, num2)
+12 
+13     def multiply(self, num1, num2):
+14         return self.operation.execute("multiply", num1, num2)
+15 
+16     def divide(self, num1, num2):
+17         return self.operation.execute("divide", num1, num2)
+
+File: src/models/__init__.py
+1 # empty file
+
+File: src/models/operation.py
+1 class Operation:
+2     def execute(self, operation, num1, num2):
+3         if operation == "add":
+4             return num1 + num2
+5         elif operation == "subtract":
+6             return num1 - num2
+7         elif operation == "multiply":
+8             return num1 * num2
+9         elif operation == "divide":
+10             if num2 != 0:
+11                 return num1 / num2
+12             else:
+13                 raise ValueError("Cannot divide by zero!")
+14         else:
+15             raise ValueError("Invalid operation!")
+
+File: tests/__init__.py
+1 # empty file
+
+File: tests/test_calculator.py
+1 import pytest
+2 from src.calculator import Calculator
+3 
+4 def test_add():
+5     calculator = Calculator()
+6     result = calculator.add(2, 3)
+7     assert result == 5
+8 
+9 def test_subtract():
+10     calculator = Calculator()
+11     result = calculator.subtract(5, 3)
+12     assert result == 2
+13 
+14 def test_multiply():
+15     calculator = Calculator()
+16     result = calculator.multiply(4, 5)
+17     assert result == 20
+18 
+19 def test_divide():
+20     calculator = Calculator()
+21     result = calculator.divide(10, 2)
+22     assert result == 5
+23 
+24 def test_divide_by_zero():
+25     calculator = Calculator()
+26     with pytest.raises(ValueError):
+27         calculator.divide(10, 0)
+
+```
+
+================================== Ai Message ==================================
+
+Here is the Unix script that installs dependencies and runs the codebase:
+```
+python -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+python src/main.py
+pytest tests/
+```
+
+2024-06-13T06:08:57.221769
+================================ System Message ================================
+
+You will get information about a codebase that is currently on disk in the current folder.
+The user will ask you to write a script that runs the code in a specific way.
+You will answer with code blocks that include all the necessary terminal commands.
+Do not install globally. Do not use sudo.
+Do not explain the code, just give the commands.
+Do not use placeholders, use example values (like . for a folder argument) if necessary.
+
+
+================================ Human Message =================================
+
+
+        Make a unix script that
+        a) installs dependencies
+        b) runs all necessary parts of the codebase (in parallel if necessary)
+        
+Information about the codebase:
+
+```
+File: Structure
+1 testsystem0001/
+2 src/
+3 __init__.py
+4 main.py
+5 calculator.py
+6 models/
+7 __init__.py
+8 operation.py
+9 tests/
+10 __init__.py
+11 test_calculator.py
+12 requirements.txt
+
+File: requirements.txt
+1 pytest
+2 dataclasses
+
+File: src/__init__.py
+1 # empty file
+
+File: src/main.py
+1 from calculator import Calculator
+2 
+3 def main():
+4     calculator = Calculator()
+5     print(calculator.add(2, 3))  # 5
+6     print(calculator.subtract(5, 2))  # 3
+7     print(calculator.multiply(4, 5))  # 20
+8     print(calculator.divide(10, 2))  # 5.0
+9 
+10 if __name__ == "__main__":
+11     main()
+
+File: src/calculator.py
+1 from models.operation import Operation
+2 
+3 class Calculator:
+4     def __init__(self):
+5         self.operation = Operation()
+6 
+7     def add(self, a, b):
+8         """Add two numbers"""
+9         return self.operation.add(a, b)
+10 
+11     def subtract(self, a, b):
+12         """Subtract two numbers"""
+13         return self.operation.subtract(a, b)
+14 
+15     def multiply(self, a, b):
+16         """Multiply two numbers"""
+17         return self.operation.multiply(a, b)
+18 
+19     def divide(self, a, b):
+20         """Divide two numbers"""
+21         if b == 0:
+22             raise ValueError("Cannot divide by zero!")
+23         return self.operation.divide(a, b)
+
+File: src/models/__init__.py
+1 # empty file
+
+File: src/models/operation.py
+1 from dataclasses import dataclass
+2 
+3 @dataclass
+4 class Operation:
+5     def add(self, a, b):
+6         """Add two numbers"""
+7         return a + b
+8 
+9     def subtract(self, a, b):
+10         """Subtract two numbers"""
+11         return a - b
+12 
+13     def multiply(self, a, b):
+14         """Multiply two numbers"""
+15         return a * b
+16 
+17     def divide(self, a, b):
+18         """Divide two numbers"""
+19         return a / b
+
+File: tests/__init__.py
+1 # empty file
+
+File: tests/test_calculator.py
+1 import pytest
+2 from src.calculator import Calculator
+3 
+4 def test_add():
+5     calculator = Calculator()
+6     assert calculator.add(2, 3) == 5
+7 
+8 def test_subtract():
+9     calculator = Calculator()
+10     assert calculator.subtract(5, 2) == 3
+11 
+12 def test_multiply():
+13     calculator = Calculator()
+14     assert calculator.multiply(4, 5) == 20
+15 
+16 def test_divide():
+17     calculator = Calculator()
+18     assert calculator.divide(10, 2) == 5.0
+19 
+20 def test_divide_by_zero():
+21     calculator = Calculator()
+22     with pytest.raises(ValueError):
+23         calculator.divide(10, 0)
+
+```
+
+================================== Ai Message ==================================
+
+Here is the Unix script that installs dependencies and runs the codebase:
+```
+python -m pip install --user -r requirements.txt
+python -m pytest tests/
+python src/main.py
+```
